@@ -1,0 +1,2 @@
+
+Objective: script for deploying tensorflow models to google cloud AI platform.  Copies them to the appropriate storage bucket, creates a model resource, as well as sets up the first version for the model.  
