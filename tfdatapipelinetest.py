@@ -9,6 +9,10 @@ import numpy as np
 #plt.figure()
 #plt.imshow(file)
 #plt.show()
+"""
+this setup can use a helper function to run map on the dataset.  converting images to tensors with 
+tensorflows io API and then aligning them with labels as one-hot encoded vectors 
+"""
 image_data=tf.data.Dataset.from_tensor_slices((['trial_tissue.tiff', 'second', 'third'],['3', '2', '4']))
 for element in image_data.as_numpy_iterator():
 	print(element)
