@@ -7,18 +7,13 @@ Note:  Should be confident that loading the tiff file does not result in signifi
 
 import tifffile as tiff
 import numpy as np 
+import tensorflow_io as tfio 
 import matplotlib.pyplot as plt
 import cv2 
-# openslide allows for viewing of different levels and crops of the images like under a microscope with a slide
-#import openslide 
+ 
 tissue_sample_filename = '/Users/colinfritz/Desktop/my_repos/Automatic_Gleason_Grading_Project/images/000920ad0b612851f8e01bcc880d9b3d.tiff'
 tissue_sample = tiff.imread(tissue_sample_filename)
-#print("mask_type: " + str(tissue_sample_mask.dtype))
-print("sample_type: " + str(tissue_sample.dtype))
-#tissue_sample = cv2.resize(tissue_sample , dsize=(2000, 2000))
-print("number_items: " + str(tissue_sample.size))
-print("itemsize_bytes: " + str(tissue_sample.itemsize))
-print("megabytes: " + str((tissue_sample.size*tissue_sample.itemsize)/1000000))
+
 # The array is showing all RGB values as 255.  This is incorrect behavior.  
 #print("image_as_array: " + str(tissue_sample))
 # trying to print the image also does not work in matplotlib despite it being a valid numpy array.  
