@@ -50,7 +50,7 @@ def create_image_filepath_strings(filepath_to_train_csv, cloud=False):
 					line_count+=1
 	return image_filepaths
 
-def preprocess_images(img_path, img_height=5000, img_width=5000):
+def preprocess_images(img_path, img_height=10000, img_width=10000):
 	img=tf.io.read_file(img_path)
 	img_decoded=tfio.experimental.image.decode_tiff(img)
 	#use slicing to make sure the tf.resize function works properly.  
@@ -76,24 +76,42 @@ def configure_for_performance(ds):
   ds = ds.prefetch(buffer_size=AUTOTUNE)
   return ds
 
-def CNN_Model():
-	inputs = tf.keras.Input(shape=(3,))
-	x = tf.keras.layers.Dense(4, activation=tf.nn.relu)(inputs)
-	outputs = tf.keras.layers.Dense(5, activation=tf.nn.softmax)(x)
-	model = tf.keras.Model(inputs=inputs, outputs=outputs)
+def CNN_Model(input_shape):
+	X_input = Input(input_shape)
+	X = ZeroPadding2D((3, 3))(X_input)
+	X = Conv2D(32, (7, 7), strides = (1, 1), name = 'conv0')(X)
+	X = BatchNormalization(axis = 3, name = 'bn0')(X)
+	X = MaxPooling2D((2, 2), name='max_pool')(X)
+	X = Activation('relu')(X)
+	X = Flatten()(X)
+	X = Dense(1, activation='sigmoid', name='fc')(X)
+	model = Model(inputs = X_input, outputs = X, name='HappyModel')
+
 	return model
 
-train_csv_path='/Users/colinfritz/Desktop/my_repos/Automatic_Gleason_Grading_Project/train_test_csv_files/train.csv'
-label_strings=create_label_strings(train_csv_path)
-image_filepaths=create_image_filepath_strings(train_csv_path)
-original_dataset=tf.data.Dataset.from_tensor_slices((image_filepaths, label_strings))
-mapped_dataset=original_dataset.map(mapping_process)
-for element in mapped_dataset.as_numpy_iterator():
-	print(element[0].shape)
-	plt.figure()
-	plt.imshow(element[0])
-	plt.show()
-	break
+train_csv_path= '/Users/colinfritz/Desktop/my_repos/Automatic_Gleason_Grading_Project/train_test_csv_files/train.csv'
+label_strings= create_label_strings(train_csv_path)
+image_filepaths= create_image_filepath_strings(train_csv_path)
+train_label_strings = 	label_strings[0:int(len(label_strings)*0.8)]
+train_image_filepaths = image_filepaths[0:int(len(label_strings)*0.8)]
+validation_label_strings = label_strings[int(len(label_strings)*0.8):]
+validation_image_file_paths = image_filepaths[int(len(label_strings)*0.8):]
+original_dataset= tf.data.Dataset.from_tensor_slices((train_image_filepaths, train_label_strings))
+original_dataset=original_dataset.shuffle(len(train_label_strings))
+mapped_dataset = original_dataset.map(mapping_process)
+repeating_dataset=mapped_dataset.repeat()
+batched_dataset=repeating_dataset.batch(3)
+# print_count = 0
+# for element in mapped_dataset.as_numpy_iterator():
+# 	if print_count == 0:
+# 		print_count+=1
+# 		continue
+# 	else:
+# 		print(element[0].shape)
+# 		plt.figure()
+# 		plt.imshow(element[0])
+# 		plt.show()
+# 		break
 
 
 
