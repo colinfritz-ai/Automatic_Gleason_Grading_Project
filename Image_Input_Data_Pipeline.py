@@ -21,7 +21,6 @@ tissue_sample = tiff.imread(tissue_sample_filename)
 #plt.imshow(tissue_sample)
 #plt.show()
 
-
 # pts1 = np.float32([[5770,11800],[7820,13000],[15000,2500],[14000,1500]])
 # pts2 = np.float32([[0,0],[3000,0],[0,12000],[3000,12000]])
 # M = cv2.getPerspectiveTransform(pts1,pts2)
