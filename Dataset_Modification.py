@@ -7,7 +7,7 @@ import csv
 import tensorflow as tf
 import tensorflow_io as tfio 
 
-def create_image_filepath_and_id_strings(filepath_to_train_csv, image_folder='/Users/colinfritz/Desktop/my_repos/Automatic_Gleason_Grading_Project/images/'):
+def create_image_filepath_and_id_strings(filepath_to_train_csv, limit = 1000000, image_folder='/Users/colinfritz/Desktop/my_repos/Automatic_Gleason_Grading_Project/images/'):
 	"""
 	Description:
 	Takes filepath to the train csv file containing each image_id and it's corresponding isup grade 
@@ -32,6 +32,8 @@ def create_image_filepath_and_id_strings(filepath_to_train_csv, image_folder='/U
 		for row in train_csv:
 			if line_count == 0:
 				line_count+=1
+			elif line_count > limit:
+				break
 			else:
 				image_filepaths.append(folder_path + row[0] + '.tiff')
 				line_count+=1
@@ -63,4 +65,5 @@ def write_resized_images(image_filepaths, image_ids,resized_location='/Users/col
 
 #creating lists of filepaths to images and image_ids 
 image_filepaths, image_ids=create_image_filepath_and_id_strings('/Users/colinfritz/Desktop/my_repos/Automatic_Gleason_Grading_Project/train_test_csv_files/train.csv')
+#resizing images and writing them to a new folder for uploading to google cloud storage bucket
 write_resized_images(image_filepaths, image_ids)
