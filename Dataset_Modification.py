@@ -35,7 +35,7 @@ def create_image_filepath_and_id_strings(filepath_to_train_csv, limit = 1000000,
 			elif line_count > limit:
 				break
 			else:
-				image_filepaths.append(folder_path + row[0] + '.tiff')
+				image_filepaths.append(image_folder + row[0] + '.tiff')
 				line_count+=1
 				image_ids.append(row[0])
 	return image_filepaths, image_ids
@@ -60,7 +60,9 @@ def write_resized_images(image_filepaths, image_ids,resized_location='/Users/col
 	for i in image_filepaths:
 		tissue_sample = tiff.imread(image_filepaths[path])
 		tissue_sample_resized=cv2.resize(tissue_sample, (512,512), interpolation = cv2.INTER_NEAREST)
-		tiff.imwrite( resized_location + image_ids[path] + '.tiff', tissue_sample_resized, photometric='rgb')
+		print(tissue_sample_resized.type)
+		break
+		tiff.imwrite(resized_location + image_ids[path] + '.tiff', tissue_sample_resized, photometric='rgb')
 		path+=1
 
 #creating lists of filepaths to images and image_ids 
