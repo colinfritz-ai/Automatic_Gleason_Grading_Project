@@ -63,16 +63,22 @@ class prepare_TFRecords():
 		# label  = example['label']
 		label = tf.sparse.to_dense(observation['label'])
 		return (image, label)
-		
+
 
 preparer=prepare_TFRecords()
 shards = 1
-shard_size = 1
-filename = "/Users/colinfritz/Desktop/my_repos/Automatic_Gleason_Grading_Project/test_tfrecords/test_tfrecord"
+shard_size = 14
+filename_suffixes = []
+with open("image_filenames.txt", "r") as f:
+	for i in range(shard_size):
+		filename_suffixes.append(f.readline().strip())
+print("length !! " + str(len(filename_suffixes)))
+
+filename = "/Users/colinfritz/Desktop/my_repos/Automatic_Gleason_Grading_Project/test_tfrecords/cloud_test_tfrecord"
 for shard in range(shards):
 	with tf.io.TFRecordWriter(filename) as out_file:
 	    for i in range(shard_size):
-		    image = preparer.resize_and_encode("/Users/colinfritz/Desktop/my_repos/Automatic_Gleason_Grading_Project/images/000920ad0b612851f8e01bcc880d9b3d.tiff")
+		    image = preparer.resize_and_encode("/Users/colinfritz/Desktop/my_repos/Automatic_Gleason_Grading_Project/images/" + filename_suffixes[i])
 		    label = preparer.ohe_label("2")
 		    example = preparer.to_TFRecord(out_file,
 		                            image, #already encoded as a byte_string

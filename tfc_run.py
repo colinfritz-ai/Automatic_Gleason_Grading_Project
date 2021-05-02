@@ -1,11 +1,9 @@
 import tensorflow_cloud as tfc
-import os
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/colinfritz/Desktop/Google_Cloud_Service_Account_Keys/Automated_Gleason_Grading_Key/tf2servetutorial-4a63c3bccabd.json"
 tfc.run(entry_point='/Users/colinfritz/Desktop/my_repos/Automatic_Gleason_Grading_Project/tfc_scripts/tfc_model_test.py',
 	    requirements_txt='/Users/colinfritz/Desktop/my_repos/Automatic_Gleason_Grading_Project/tfc_scripts/requirements.txt',
 	    docker_config="auto",
 	    distribution_strategy="auto",
-	    chief_config=tfc.COMMON_MACHINE_CONFIGS["CPU"],
+	    chief_config=tfc.COMMON_MACHINE_CONFIGS["P100_4X"],
 	    worker_config="auto",
 	    worker_count=0,
 	    entry_point_args=None,

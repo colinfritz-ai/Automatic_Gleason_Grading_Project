@@ -1,8 +1,5 @@
 import tensorflow as tf
 import tfc_model_test_funcs
-import tensorflow_cloud as tfc
-import os
-gcp_bucket= "panda_dataset/"
 (x_train, y_train), (_, _) = tf.keras.datasets.mnist.load_data()
 
 x_train = x_train.reshape((60000, 28 * 28))
@@ -18,10 +15,5 @@ model.compile(loss='sparse_categorical_crossentropy',
               optimizer=tf.keras.optimizers.Adam(),
               metrics=['accuracy'])
 
-model.fit(x_train, y_train, epochs=10, batch_size=1000)
-
-save_path = os.path.join("gs://", gcp_bucket, "mnist_example")
-
-if tfc.remote():
-    model.save(save_path)
+model.fit(x_train, y_train, epochs=10, batch_size=128)
 
