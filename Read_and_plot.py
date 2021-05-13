@@ -13,6 +13,6 @@ dataset4 = dataset4.with_options(option_no_order)
 dataset4 = dataset4.map(preparer.read_TFRecord)
 dataset4=dataset4.take(1)
 for image, label in dataset4:
-	plt.imshow(image.numpy())
-	plt.show()
+	print(image.numpy().shape)
+	# plt.show()
 

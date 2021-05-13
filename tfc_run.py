@@ -1,9 +1,14 @@
 import tensorflow_cloud as tfc
-tfc.run(entry_point='/Users/colinfritz/Desktop/my_repos/Automatic_Gleason_Grading_Project/tfc_scripts/tfc_model_test.py',
+tfc.run(entry_point='/Users/colinfritz/Desktop/my_repos/Automatic_Gleason_Grading_Project/train_production_model.py',
 	    requirements_txt='/Users/colinfritz/Desktop/my_repos/Automatic_Gleason_Grading_Project/tfc_scripts/requirements.txt',
 	    docker_config="auto",
 	    distribution_strategy="auto",
-	    chief_config=tfc.COMMON_MACHINE_CONFIGS["P100_4X"],
+	    chief_config=tfc.MachineConfig(
+        cpu_cores=8,
+        memory=30,
+        accelerator_type=tfc.AcceleratorType.NVIDIA_TESLA_T4,
+        accelerator_count=2,
+    	),
 	    worker_config="auto",
 	    worker_count=0,
 	    entry_point_args=None,
@@ -23,8 +28,6 @@ tfc.run(entry_point='/Users/colinfritz/Desktop/my_repos/Automatic_Gleason_Gradin
 #     print(buckets)
 
 # implicit()
-
-
 
 
 
