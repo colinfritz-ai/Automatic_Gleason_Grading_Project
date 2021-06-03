@@ -1,11 +1,11 @@
 Automated_Gleason_Grading_Project
 
 Objective:
-
+Create a web application capable of automated Gleason grading with speed and accuracy far exceeding that of human physicians.  
 
 Image Processing and EDA:
-
+10k images.  300GB dataset of anonymous images of prostate tissue samples.  
 
 Model:
-
+ResNet based convolutional neural network architecture.  Trained on TPU in Google Cloud.  
 
